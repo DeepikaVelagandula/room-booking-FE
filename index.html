@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Room Booking App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.2/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+
+    <script src="./js/serviceModule.js"></script>
+    <script src="./js/timeChangeFilter.js"></script>
+    <script src="./js/meeting-details.js"></script>
+    <script src='./index.js'></script>
+
+</head>
+
+<body ng-app="RoomBookingModule" ng-controller="roomBookingController as roomBook" class="container">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Room Booking App</a>
+            </div>
+        </div>
+    </nav>
+    <div class="col-sm-4">
+        <div>
+            <div uib-datepicker ng-model="roomBook.selectedDate" min-date="roomBook.minDate" show-weeks="true" class="well" datepicker-options="roomBook.datePickerOpions"
+                date-disabled="roomBook.disabled(date, mode)"></div>
+        </div>
+        <button type="button" class="btn btn-primary" ng-click="roomBook.doReservation()">Book</button>
+        <button type="button" class="btn btn-primary" ng-click="roomBook.clearSelection()">Clear</button>
+    </div>
+
+    <div class="col-sm-8 table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="10%">Room/Time</th>
+                    <th ng-repeat="room in roomBook.roomsObj.rooms">{{room.name}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="slot in roomBook.timeSlots.slots">
+                    <td class="th">{{slot.time | timeFormatter }}</td>
+                    <td ng-repeat="room in roomBook.roomsObj.rooms"
+                        ng-click="roomBook.bookSlot(room, slot)"
+                        ng-class="{'selected': roomBook.reservationData[room.id][slot.id]}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
