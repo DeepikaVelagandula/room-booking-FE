@@ -49,7 +49,7 @@
                     <td class="th">{{slot.time | timeFormatter }}</td>
                     <td ng-repeat="room in roomBook.roomsObj.rooms"
                         ng-click="roomBook.bookSlot(room, slot)"
-                        ng-class="{'selected': roomBook.reservationData[room.id][slot.id]}">
+                        ng-class="{'selected': roomBook.reservationData[room.id][slot.id], 'booked': roomBook.bookedMeetings[room.id][slot.id]}">
                     </td>
                 </tr>
             </tbody>

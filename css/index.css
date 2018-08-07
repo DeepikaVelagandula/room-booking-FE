@@ -10,3 +10,8 @@ th, .th {
 td.selected{
     background: rgb(11, 172, 11);
 }
+
+
+td.booked{
+    background: rgb(255, 37, 37);
+}
