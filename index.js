@@ -10,12 +10,12 @@ function roomBookingController(httpServices, $q, $uibModal) {
     var self = this;
 
     function getRoomAvailability() {
-        httpServices.roomBookingDetailsService(self.selectedDate).then(sf, function () { });
+        httpServices.roomBookingDetailsService(self.selectedDate).then(function () { }, function () { });
     }
 
-    function sf(res) {
-        console.log(res.data)
-    }
+    // function sf(res) {
+    //     console.log(res.data)
+    // }
     function bookSlot(room, slot){
         self.reservationData[room.id] = self.reservationData[room.id] || {};
 
@@ -44,16 +44,32 @@ function roomBookingController(httpServices, $q, $uibModal) {
         });
 
         modalInstance.result.then(function (selectedItem) {
-            $ctrl.selected = selectedItem;
+            self.meetingDetails = selectedItem;
+            for (var room in self.reservationData){
+                if(self.reservationData.hasOwnProperty(room)){
+                    for(var slot in self.reservationData[room]){
+                        if(self.reservationData[room].hasOwnProperty(slot)){
+                            self.reservationData[room][slot] =  self.meetingDetails;                        
+                        }
+                    }
+                }
+            }
+            console.log(self.reservationData)
+            httpServices.requestingRoomBookingService('08-08-2018', self.reservationData).then(successRoomBookingObj, errorBookingSlots);
+            
         }, function () {
             alert('Meeting details are required to do booking');
         });
+        
+    }
+    function errorBookingSlots(err){
+        alert('rooms are booked already. Please try for another room.')
+    }
+    
+    function successRoomBookingObj(res){
+        alert('user successfully booked the slots.')
     }
 
-    // httpServicesData.requestingRoomBookingService('09-02-2018', self.bookingObj).then(sr,function(){});
-    // function sr(res){
-    //     console.log(res.data)
-    // }
     function init(){
         self.datePickerOpions = {
             minDate: new Date(),
