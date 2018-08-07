@@ -10,15 +10,17 @@ function roomBookingController(httpServices, $q, $uibModal, $scope, $filter) {
     var self = this;
 
     function getRoomAvailability() {
-        httpServices.roomBookingDetailsService(self.selectedDate).then(function (res) {
+        httpServices.roomBookingDetailsService(self.formattedDate).then(function (res) {
             self.bookedMeetings = res.data;
-        }, function () { });
+        }, function () { 
+            self.bookedMeetings = {};
+        });
     }
 
     function bookSlot(room, slot) {
         if (self.bookedMeetings
             && self.bookedMeetings[room.id]
-            && self.bookedMeetings[room.id][slot.id]) {
+            && self.bookedMeetings[room.id][slot.id]) { 
                 alert('current slot is already booked, please choose another');
                 return;
         }
