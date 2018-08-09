@@ -59,4 +59,18 @@ ul {
     width: 100%;
     display: block;
 }
+.trashMakeUp{
+    display:none;
+}
+
+button.glyphicon.glyphicon-trash {
+    display: none;
+}
+.booked:hover button.glyphicon.glyphicon-trash {
+    display: block;
+    background-color: red;
+    border: none;
+    color: white;
+}
+
   

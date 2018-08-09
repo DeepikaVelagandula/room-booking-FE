@@ -9,6 +9,39 @@ angular.module("RoomBookingModule", [
 function roomBookingController(httpServices, $q, $uibModal, $scope, $filter) {
     var self = this;
 
+    self.deleteRoomReservation = deleteRoomReservation;
+
+    function deleteRoomReservation(room, slot){        
+        //self.bookedMeetings[room][slot] = {};
+        var modalInstance = $uibModal.open({
+            animation: true,
+            size: 'md',
+            templateUrl: './html/deletePopUp.html',
+            controller: 'deletePopUpController'
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+            self.meetingDetails = selectedItem;
+            for (var room in self.reservationData) {
+                if (self.reservationData.hasOwnProperty(room)) {
+                    for (var slot in self.reservationData[room]) {
+                        if (self.reservationData[room].hasOwnProperty(slot)) {
+                            self.reservationData[room][slot] = self.meetingDetails;
+                        }
+                    }
+                }
+            }
+           // console.log(self.reservationData)
+            httpServices.requestingRoomBookingService(self.formattedDate, self.reservationData).then(successRoomBookingObj, errorBookingSlots);
+
+        }, function () {
+            //alert('Meeting details are required to do booking');
+        });
+        httpServices.deleteBookingRoomSlot(self.formattedDate, room, slot).then(successRoomBookingObj,function(){
+            alert("please delete once again.");
+        });
+    }
+
     self.popover = {
         templateUrl:  "./html/meetingInfoPopOver.html",
         title: "Meeting Details",

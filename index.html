@@ -52,6 +52,7 @@
                         popover-title="{{roomBook.popover.title}}" popover-trigger="'mouseenter'" popover-append-to-body="true"
                         popover-enable="roomBook.bookedMeetings[room.id][slot.id]? true : false" uib-popover-template="roomBook.popover.templateUrl"
                         ng-class="{'selected': roomBook.reservationData[room.id][slot.id], 'booked': roomBook.bookedMeetings[room.id][slot.id]}">
+                    <button type="button" class="glyphicon glyphicon-trash" ng-click="roomBook.deleteRoomReservation(room.id, slot.id); $event.stopPropagation();" ng-class="{'trashMakeUp': !roomBook.bookedMeetings[room.id][slot.id]}" > </button>
                     </td>
                 </tr>
             </tbody>

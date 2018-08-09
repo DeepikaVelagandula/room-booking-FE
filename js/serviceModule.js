@@ -23,8 +23,16 @@ function httpServicesData($http) {
         })
     }
 
+    function deleteBookingRoomSlot(date, room, slot){
+        return $http({
+            url:'http://localhost:3001/bookings/'+date+'/'+room+'/'+slot,
+            method:'DELETE'
+        })
+    }
+
     this.getRooms = roomsService;
     this.getTimeslots = timeslotsService;
     this.roomBookingDetailsService = roomBookingDetailsService;
     this.requestingRoomBookingService = requestingRoomBookingService;
+    this.deleteBookingRoomSlot = deleteBookingRoomSlot;
 }
