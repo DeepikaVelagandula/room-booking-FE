@@ -9,6 +9,17 @@ angular.module("RoomBookingModule", [
 function roomBookingController(httpServices, $q, $uibModal, $scope, $filter) {
     var self = this;
 
+    self.popover = {
+        templateUrl:  "./html/meetingInfoPopOver.html",
+        title: "Meeting Details",
+        placement: "bottom-left"
+    }
+    self.roomPopOver = {
+        templateUrl:  "./html/roomDetails.html",
+        title: "Room Details",
+        placement: "bottom-right" 
+    }
+
     function getRoomAvailability() {
         httpServices.roomBookingDetailsService(self.formattedDate).then(function (res) {
             self.bookedMeetings = res.data;
@@ -61,11 +72,11 @@ function roomBookingController(httpServices, $q, $uibModal, $scope, $filter) {
                     }
                 }
             }
-            console.log(self.reservationData)
+           // console.log(self.reservationData)
             httpServices.requestingRoomBookingService(self.formattedDate, self.reservationData).then(successRoomBookingObj, errorBookingSlots);
 
         }, function () {
-            alert('Meeting details are required to do booking');
+            //alert('Meeting details are required to do booking');
         });
 
     }

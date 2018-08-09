@@ -11,19 +11,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.2/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
-
     <script src="./js/serviceModule.js"></script>
     <script src="./js/timeChangeFilter.js"></script>
     <script src="./js/meeting-details.js"></script>
     <script src='./index.js'></script>
-
 </head>
 
 <body ng-app="RoomBookingModule" ng-controller="roomBookingController as roomBook" class="container">
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Room Booking App</a>
+                <a class="navbar-brand" href="#">Meeting Room Booking App</a>
             </div>
         </div>
     </nav>
@@ -32,23 +30,27 @@
             <div uib-datepicker ng-model="roomBook.selectedDate" min-date="roomBook.minDate" show-weeks="true" class="well" datepicker-options="roomBook.datePickerOpions"
                 date-disabled="roomBook.disabled(date, mode)"></div>
         </div>
-        <button type="button" class="btn btn-primary" ng-click="roomBook.doReservation()">Book</button>
-        <button type="button" class="btn btn-primary" ng-click="roomBook.clearSelection()">Clear</button>
+        <div class="sticky">
+            <button type="button" class="btn btn-primary" ng-click="roomBook.doReservation()">Book</button>
+            <button type="button" class="btn btn-primary" ng-click="roomBook.clearSelection()">Clear</button>
+        </div>
     </div>
-
     <div class="col-sm-8 table-responsive">
-        <table class="table">
+        <table class="table table-fixed">
             <thead>
                 <tr>
                     <th width="10%">Room/Time</th>
-                    <th ng-repeat="room in roomBook.roomsObj.rooms">{{room.name}}</th>
+                    <th ng-repeat="room in roomBook.roomsObj.rooms" popover-placement="{{roomBook.roomPopOver.placement}}" popover-title="{{roomBook.roomPopOver.title}}"
+                        popover-trigger="'mouseenter'" popover-append-to-body="true" popover-enable="room.name? true : false"
+                        uib-popover-template="roomBook.roomPopOver.templateUrl">{{room.name}}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="slot in roomBook.timeSlots.slots">
                     <td class="th">{{slot.time | timeFormatter }}</td>
-                    <td ng-repeat="room in roomBook.roomsObj.rooms"
-                        ng-click="roomBook.bookSlot(room, slot)"
+                    <td ng-repeat="room in roomBook.roomsObj.rooms" ng-click="roomBook.bookSlot(room, slot)" popover-placement="{{roomBook.popover.placement}}"
+                        popover-title="{{roomBook.popover.title}}" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                        popover-enable="roomBook.bookedMeetings[room.id][slot.id]? true : false" uib-popover-template="roomBook.popover.templateUrl"
                         ng-class="{'selected': roomBook.reservationData[room.id][slot.id], 'booked': roomBook.bookedMeetings[room.id][slot.id]}">
                     </td>
                 </tr>

@@ -1,11 +1,11 @@
 angular.module('meetingDetailsModule', [])
     .controller('MeetingDetailsController', function ($uibModalInstance, $scope) {
         $scope.meetingDetails = {};
-        $scope.submitMeetingDetails = submitMeetingDetails;
+        $scope.storeMeetingData = storeMeetingData;
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
           };
-        function submitMeetingDetails() {
+        function storeMeetingData() {
             $uibModalInstance.close($scope.meetingDetails);
         };
        
